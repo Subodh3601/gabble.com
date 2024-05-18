@@ -2,19 +2,18 @@ import logo from "/logo.png";
 import { MdHomeFilled } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const Sidebar = () => {
   
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate: logout } = useMutation({
     mutationFn: async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/auth/logout", {
+        const res = await fetch("/api/auth/logout", {
           method: "POST",
           credentials: "include",
         });
@@ -27,7 +26,7 @@ const Sidebar = () => {
         
       } catch (error) {
         toast.error("Logout failed");
-        throw new Error(error);
+        throw new Error(error.message);
       }
     },
     onSuccess: () => {
@@ -40,12 +39,11 @@ const Sidebar = () => {
   });
 
   
-  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] }); // this is similar to useContext to get the data
   return (
     <div className="md:flex-[2_2_0] w-18 max-w-52">
       <div className="sticky top-0 left-0 h-screen flex flex-col border-r border-gray-700 w-20 md:w-full">
         <Link to="/" className="flex justify-center md:justify-start">
-          {/* <XSvg className="px-2 w-12 h-12 rounded-full fill-white hover:bg-stone-200" /> */}
           <img src={logo} alt="logo" />
         </Link>
         <ul className="flex flex-col gap-3 mt-4">

@@ -20,18 +20,19 @@ function App() {
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/auth/user", {
+        const res = await fetch("/api/auth/user", {
           credentials: "include",
         });
         const data = await res.json();
-        if (data.error) return null;
-        if (!res.ok) {
-          throw new Error(data.error || "Something went wrong");
-        }
-        console.log("authUser is here:", data);
+        // if (data.error) return null; // so that after logout authuser become null and redirect to login from any where.
+          if (!res.ok) {
+            throw new Error(data.error || "Something went wrong");
+          }
+        // console.log("authUser is here:", data);
         return data;
       } catch (error) {
-        throw new Error(error);
+        console.log("error in initial fetching from app.jsx",error.message)
+        throw new Error(error.message);
       }
     },
     retry: false,

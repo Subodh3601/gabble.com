@@ -20,7 +20,7 @@ const Post = ({ post }) => {
 
   const isMyPost = authUser._id === post.user._id;
 
-  const formattedDate = formatPostDate(post.createdAt);
+  // const formattedDate = formatPostDate(post.createdAt);
 
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
@@ -144,7 +144,7 @@ const Post = ({ post }) => {
                 @{postOwner.username}
               </Link>
               <span>·</span>
-              <span>{formattedDate}</span>
+              {/* <span>{formattedDate}</span> */}
             </span>
             {isMyPost && (
               <span className="flex justify-end flex-1">

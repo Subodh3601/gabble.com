@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import image from '/signup_image.jpg'
+import image from "/signup_image.jpg";
 import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const SignUpPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -22,37 +22,40 @@ const SignUpPage = () => {
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ email, username, fullName, password }) => {
       try {
-        const res = await fetch("http://localhost:4000/api/auth/signup", {
+        // const res = await fetch("http://localhost:4000/api/auth/signup", {
+        // we can use above line or by changing in vite.config.js file for preponding "http://localhost:4000" before '/api'
+
+        const res = await fetch("/api/auth/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, username, fullName, password }),
         });
-
+        
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Failed to create account");
+        // if (data.error) throw new Error(data.error)
         setFormData({
           email: "",
           username: "",
           fullName: "",
           password: "",
         });
-        console.log(data);
-        console.log(res);
-        toast.success("Account created successfully");
-        navigate('/login')
+        // console.log(data);
+        // toast.success("Account created successfully");
+        navigate("/login");
         return data;
       } catch (error) {
-        console.error(error);
+        console.error(error.message);
         toast.error("problem with account creation");
-        throw error;
+        throw new Error(error.message);
       }
     },
-    // onSuccess: () => {
-    //   toast.success("Account created successfully");
-    //   queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    // },
+    onSuccess: () => {
+      toast.success("Account created successfully");
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
   });
 
   const handleSubmit = (e) => {
@@ -71,7 +74,6 @@ const SignUpPage = () => {
         <img className="lg:w-200" src={image} alt="signup-image" />
       </div>
       <div className="flex-1 flex flex-col justify-center items-center">
-       
         <form
           className="lg:w-2/3  mx-auto md:mx-20 flex gap-4 flex-col"
           onSubmit={handleSubmit}
