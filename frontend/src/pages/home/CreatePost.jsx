@@ -27,6 +27,7 @@ const CreatePost = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ text, img }),
+          credentials:"include",
         });
         const data = await res.json();
         if (!res.ok) {
@@ -34,7 +35,7 @@ const CreatePost = () => {
         }
         return data;
       } catch (error) {
-        throw new Error(error);
+        throw new Error(error.message);
       }
     },
 
@@ -42,6 +43,7 @@ const CreatePost = () => {
       setText("");
       setImg(null);
       toast.success("Post created successfully");
+      //to refetch
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });

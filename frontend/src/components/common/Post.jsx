@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
-// import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./LoadingSpinner";
 // import { formatPostDate } from "../../utils/date";
 
 const Post = ({ post }) => {
@@ -35,11 +35,12 @@ const Post = ({ post }) => {
         }
         return data;
       } catch (error) {
-        throw new Error(error);
+        throw new Error(error.message);
       }
     },
     onSuccess: () => {
       toast.success("Post deleted successfully");
+      //this will refetch the data after the deletion so that updated database is diplayed
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });
@@ -61,7 +62,7 @@ const Post = ({ post }) => {
     },
     onSuccess: (updatedLikes) => {
       // this is not the best UX, bc it will refetch all posts
-      // queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
 
       // instead, update the cache directly for that post
       queryClient.setQueryData(["posts"], (oldData) => {

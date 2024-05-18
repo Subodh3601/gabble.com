@@ -20,7 +20,8 @@ cloudinary.config({
 const port = process.env.PORT || 3601;
 const app = express();
 
-app.use(express.json())
+app.use(express.json({ limit: "5mb" })) // make sure not allow to large or server will crash by denile of service attack.
+
 app.use(cookieParser())
 app.use(cors({
     origin: 'http://localhost:5173',
