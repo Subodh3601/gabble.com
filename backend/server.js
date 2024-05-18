@@ -7,6 +7,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import authRoutes from './routes/auth.routes.js';
 import { connectToDB } from './config/db.js';
 import userRoutes from './routes/user.routes.js';
+import postRoutes from './routes/post.routes.js';
 
 
 dotenv.config()
@@ -25,7 +26,7 @@ app.use(express.urlencoded({ extended: true })) //to parse form data because the
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
-
+app.use('/api/posts', postRoutes)
 
 
 
