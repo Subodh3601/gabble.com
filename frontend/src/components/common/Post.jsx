@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
 import LoadingSpinner from "./LoadingSpinner";
-// import { formatPostDate } from "../../utils/date";
+import { formatPostDate } from "../../utils/date";
 
 const Post = ({ post }) => {
   const [comment, setComment] = useState("");
@@ -20,7 +20,7 @@ const Post = ({ post }) => {
 
   const isMyPost = authUser._id === post.user._id;
 
-  // const formattedDate = formatPostDate(post.createdAt);
+  const formattedDate = formatPostDate(post.createdAt);
 
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async () => {
@@ -50,6 +50,8 @@ const Post = ({ post }) => {
       try {
         const res = await fetch(`/api/posts/like/${post._id}`, {
           method: "POST",
+          credentials: 'include',
+          
         });
         const data = await res.json();
         if (!res.ok) {
@@ -57,12 +59,12 @@ const Post = ({ post }) => {
         }
         return data;
       } catch (error) {
-        throw new Error(error);
+        throw new Error(error.message);
       }
     },
     onSuccess: (updatedLikes) => {
-      // this is not the best UX, bc it will refetch all posts
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      // this( queryClient) is not the best UX, because it will refetch all posts
+      // queryClient.invalidateQueries({ queryKey: ["posts"] });
 
       // instead, update the cache directly for that post
       queryClient.setQueryData(["posts"], (oldData) => {
@@ -88,6 +90,8 @@ const Post = ({ post }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ text: comment }),
+          credentials: "include",
+          
         });
         const data = await res.json();
 
@@ -96,7 +100,7 @@ const Post = ({ post }) => {
         }
         return data;
       } catch (error) {
-        throw new Error(error);
+        throw new Error(error.message);
       }
     },
     onSuccess: () => {
@@ -145,7 +149,7 @@ const Post = ({ post }) => {
                 @{postOwner.username}
               </Link>
               <span>·</span>
-              {/* <span>{formattedDate}</span> */}
+              <span>{formattedDate}</span>
             </span>
             {isMyPost && (
               <span className="flex justify-end flex-1">
@@ -166,7 +170,7 @@ const Post = ({ post }) => {
               <img
                 src={post.img}
                 className="h-80 object-contain rounded-lg border border-gray-700"
-                alt=""
+                alt="post-img"
               />
             )}
           </div>
