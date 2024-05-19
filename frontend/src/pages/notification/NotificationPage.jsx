@@ -14,12 +14,14 @@ const NotificationPage = () => {
     queryKey: ["notifications"],
     queryFn: async () => {
       try {
-        const res = await fetch("/api/notifications");
+        const res = await fetch("/api/notifications", {
+          credentials:"include",
+        });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Something went wrong");
         return data;
       } catch (error) {
-        throw new Error(error);
+        throw new Error(error.message);
       }
     },
   });
@@ -29,13 +31,15 @@ const NotificationPage = () => {
       try {
         const res = await fetch("/api/notifications", {
           method: "DELETE",
+          credentials: "include",
+          
         });
         const data = await res.json();
 
         if (!res.ok) throw new Error(data.error || "Something went wrong");
         return data;
       } catch (error) {
-        throw new Error(error);
+        throw new Error(error.message);
       }
     },
     onSuccess: () => {

@@ -12,7 +12,7 @@ const EditProfileModal = ({ authUser }) => {
     currentPassword: "",
   });
 
-  const { updateProfile, isUpdatingProfile } = useUpdateUserProfile();
+  // const { updateProfile, isUpdatingProfile } = useUpdateUserProfile();
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
