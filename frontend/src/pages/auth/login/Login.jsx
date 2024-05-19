@@ -73,11 +73,11 @@ const LoginPage = () => {
   return (
     <div className="max-w-screen-xl mx-auto flex h-screen">
       <div className="flex-1 hidden lg:flex items-center justify-end">
-        <img className="lg:w-90" src={image} alt="login-image" />
+        <img className="lg:w-100" src={image} alt="login-image" />
       </div>
       <div className="flex-1 flex flex-col justify-center items-center">
         <form className="flex gap-4 flex-col" onSubmit={handleSubmit}>
-          <img className="w-24 lg:hidden" src={image} alt="login-image" />
+          <img className="w-80 lg:hidden" src={image} alt="login-image" />
           <h1 className="text-4xl font-extrabold text-black flex justify-center items-center">
             {"Can't"} Wait.
             <img className="w-24" src={emoji} />

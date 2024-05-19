@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import image from "/signup_image.jpg";
+import emoji from "/signupemoji.jpeg";
 import { MdOutlineMail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
@@ -70,17 +71,19 @@ const SignUpPage = () => {
   return (
     <div className="max-w-screen-xl mx-auto flex h-screen px-10">
       <div className="flex-1 hidden lg:flex items-center  justify-center">
-        {/* <XSvg className="lg:w-2/3 fill-black" /> */}
-        <img className="lg:w-200" src={image} alt="signup-image" />
+        <img className="lg:w-100" src={image} alt="signup-image" />
       </div>
       <div className="flex-1 flex flex-col justify-center items-center">
         <form
           className="lg:w-2/3  mx-auto md:mx-20 flex gap-4 flex-col"
           onSubmit={handleSubmit}
         >
-          {/* <XSvg className="w-24 lg:hidden fill-black" /> */}
-          <img className="w-80 lg:hidden" src={image} alt="signup-image" />
-          <h1 className="text-4xl font-extrabold text-black">Lets Gobble.</h1>
+          <img className="w-90 lg:hidden" src={image} alt="signup-image" />
+          <h1 className="text-4xl font-extrabold text-black flex gap-4 align-center justify-center">
+            Lets Gabble.
+            <img className="w-20" src={emoji} alt="signup-imoji" />
+          </h1>
+
           <label className="input input-bordered rounded flex items-center gap-2">
             <MdOutlineMail />
             <input
